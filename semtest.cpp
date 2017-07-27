@@ -15,7 +15,7 @@ void semtest( int semnum, bool initmem )
         }
 
         errno = 0;
-        int res = sem_init( &sem, 0, 0 );
+        int res = sem_init( &sem, 0, 1 );
 
         printf( "sem %d: sem_init res = %d, errno = %d\n", semnum, res, errno );
 

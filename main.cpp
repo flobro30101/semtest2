@@ -1,0 +1,41 @@
+#include <semaphore.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <time.h>
+
+extern void semtest( int semnum, bool initmem );
+
+void semtest_in_exe( int semnum, bool initmem )
+{
+        sem_t sem;
+
+        if ( initmem )
+        {
+                memset( &sem, 0, sizeof( sem_t ) );
+                printf( "sem %d: memset size = %d\n", semnum, sizeof( sem_t ) );
+        }
+
+        errno = 0;
+        int res = sem_init( &sem, 0, 1 );
+
+        printf( "sem %d: sem_init res = %d, errno = %d\n", semnum, res, errno );
+
+        timespec ts;
+        clock_gettime( CLOCK_REALTIME, &ts );
+        ts.tv_sec += 1;
+
+        errno = 0;
+        res = sem_timedwait( &sem, &ts );
+
+        printf( "sem %d: sem_timedwait res = %d, errno = %d\n\n", semnum, res, errno );
+}
+
+int main(int argc, char* argv[], char** envp)
+{
+        semtest( 1, false );
+        semtest( 2, true );
+        semtest_in_exe( 3, false );
+        semtest_in_exe( 4, true );
+}
+

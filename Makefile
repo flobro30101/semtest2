@@ -9,7 +9,7 @@ libsemtest.so: semtest.o
 	ln -s libsemtest.so.0 libsemtest.so
 
 main: libsemtest.so
-	gcc -g -m32  main.cpp -o semtest  -L/media/flobro/a125ac59-de36-45eb-a83f-3eae68f38465/home/ectrs/emerson/semtest2 -lsemtest -lc -lpthread -lrt
+	gcc -g -m32  main.cpp -o semtest  -L$(CURDIR) -lsemtest -lc -lpthread -lrt
 
 clean:
 	rm semtest.o libsemtest.so* semtest
